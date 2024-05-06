@@ -46,7 +46,7 @@ LoginRouter.post('/', async (req: Request, res: Response) => {
         await existingUser.save();
 
         // send acces token as cookie
-        res.cookie('access_token', access_token, { httpOnly: true});
+        res.cookie('accessToken', access_token, { httpOnly: true });
         res.status(201).json({ 
             success: "Logged in successfully.",
             refreshToken

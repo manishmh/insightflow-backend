@@ -12,9 +12,14 @@ dotenv.config();
 
 const app: Express = express();
 
+const corsOptions = {
+  origin: 'http://localhost:3000', 
+  optionsSuccessStatus: 200, 
+};
+
 // Apply middleware
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Apply routes
