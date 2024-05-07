@@ -13,7 +13,7 @@ dotenv.config();
 const app: Express = express();
 
 const corsOptions = {
-  origin: 'http://localhost:3000', 
+  origin: ['http://localhost:3000', 'https://fsd-frontend-nine.vercel.app'],
   optionsSuccessStatus: 200, 
 };
 
