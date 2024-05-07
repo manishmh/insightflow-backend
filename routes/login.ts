@@ -27,7 +27,6 @@ LoginRouter.post('/', async (req: Request, res: Response) => {
         if (!isPasswordCorrect) {
             return res.status(401).json({ error: "incorrect password" });
         }
-
         
         // set device information before checking if the devices already exists and store it into database. 
         const deviceIndex = existingUser.loginDevices.findIndex(device => device.deviceInfo === deviceInfo);
