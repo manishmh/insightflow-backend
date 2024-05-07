@@ -23,7 +23,7 @@ userDashboardRouter.get('/', authorization_1.tokenAuthorization, async (req, res
         res.status(500).json({ error: "something went wrong" });
     }
 });
-userDashboardRouter.put('/', authorization_1.tokenAuthorization, async (req, res) => {
+userDashboardRouter.post('/', authorization_1.tokenAuthorization, async (req, res) => {
     try {
         const email = req.user.email;
         console.log('device-name', req.body);
@@ -36,7 +36,7 @@ userDashboardRouter.put('/', authorization_1.tokenAuthorization, async (req, res
         user.loginDevices = newDevice;
         await user.save();
         server_1.io.emit('userLoggedIn', newDevice);
-        res.status(200).json({ message: "Device removed successfully" });
+        res.status(200).json({ success: "Device removed successfully" });
     }
     catch (error) {
         console.error(error);
