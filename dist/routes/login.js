@@ -33,16 +33,17 @@ LoginRouter.post('/', async (req, res) => {
         else {
             existingUser.loginDevices.push({ deviceInfo, lastLogin: new Date() });
         }
-        server_1.io.emit('userLoggedIn', existingUser.loginDevices);
-        const access_token = jsonwebtoken_1.default.sign({ email }, process.env.JWT_SECRET_KEY || 'Manish', { expiresIn: '1hr' });
+        const accessToken = jsonwebtoken_1.default.sign({ email }, process.env.JWT_SECRET_KEY || 'Manish', { expiresIn: '1h' });
         const refreshToken = jsonwebtoken_1.default.sign({ email }, process.env.JWT_SECRET_KEY || 'Manish', { expiresIn: '24h' });
         existingUser.refreshToken = refreshToken;
         await existingUser.save();
+        server_1.io.emit('userLoggedIn', existingUser.loginDevices);
         // send acces token as cookie
-        res.cookie('accessToken', access_token, { httpOnly: true });
+        res.cookie('accessToken', accessToken, { httpOnly: true });
         res.status(201).json({
             success: "Logged in successfully.",
-            refreshToken
+            refreshToken,
+            accessToken,
         });
     }
     catch (error) {

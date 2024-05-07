@@ -13,10 +13,11 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const db_1 = __importDefault(require("./config/db"));
 const login_1 = __importDefault(require("./routes/login"));
 const register_1 = __importDefault(require("./routes/register"));
+const user_dashboard_1 = __importDefault(require("./routes/user-dashboard"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'https://fsd-frontend-nine.vercel.app'],
     optionsSuccessStatus: 200,
 };
 // Apply middleware
@@ -26,6 +27,7 @@ app.use(express_1.default.json());
 // Apply routes
 app.use('/register', register_1.default);
 app.use('/login', login_1.default);
+app.use('/user/dashboard', user_dashboard_1.default);
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });

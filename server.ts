@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db';
 import LoginRouter from './routes/login';
 import RegisterRouter from './routes/register';
+import userDashboardRouter from './routes/user-dashboard';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(express.json());
 // Apply routes
 app.use('/register', RegisterRouter);
 app.use('/login', LoginRouter);
+app.use('/user/dashboard', userDashboardRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');

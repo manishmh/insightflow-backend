@@ -36,19 +36,21 @@ LoginRouter.post('/', async (req: Request, res: Response) => {
             existingUser.loginDevices.push({ deviceInfo, lastLogin: new Date() });
         }
         
-        io.emit('userLoggedIn', existingUser.loginDevices)
-
-        const access_token = jwt.sign({ email }, process.env.JWT_SECRET_KEY || 'Manish', { expiresIn: '1hr' });
+        
+        const accessToken = jwt.sign({ email }, process.env.JWT_SECRET_KEY || 'Manish', { expiresIn: '1h' });
         const refreshToken = jwt.sign({ email }, process.env.JWT_SECRET_KEY || 'Manish',  { expiresIn: '24h' });
-
+        
         existingUser.refreshToken = refreshToken;
         await existingUser.save();
+        
+        io.emit('userLoggedIn', existingUser.loginDevices)
 
         // send acces token as cookie
-        res.cookie('accessToken', access_token, { httpOnly: true });
+        res.cookie('accessToken', accessToken, { httpOnly: true });
         res.status(201).json({ 
             success: "Logged in successfully.",
-            refreshToken
+            refreshToken,
+            accessToken, 
         }) 
     } catch (error) {
         res.status(500).json({ error: "Something went wrong! Try again. " }) 
