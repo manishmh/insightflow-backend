@@ -14,7 +14,7 @@ userDashboardRouter.get('/', tokenAuthorization, async (req: Request, res: Respo
             res.status(403).json({ error: "unauthorized" })
         } else io.emit('userLoggedIn', user.loginDevices)
 
-        res.status(201).json({ success: "device data fetched."})
+        res.status(201).json({ success: "device data fetched.", data: user?.loginDevices })
     } catch (error) {
         res.status(500).json({ error: "something went wrong"})
     }
