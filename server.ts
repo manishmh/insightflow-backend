@@ -34,7 +34,11 @@ app.get('/', (req: Request, res: Response) => {
 
 // Create HTTP server and Initialize Socket.IO
 const server = http.createServer(app);
-export const io = new Server(server);
+export const io = new Server(server, {
+  cors: {
+    origin: "*"
+  }
+});
 
 // Error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
