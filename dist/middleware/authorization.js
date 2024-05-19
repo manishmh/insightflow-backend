@@ -14,11 +14,12 @@ const tokenAuthorization = (req, res, next) => {
         if (!accessToken) {
             return res.status(401).json({ error: "Unauthorized, no access token" });
         }
-        const checkValidity = jsonwebtoken_1.default.verify(accessToken, process.env.JWT_SECRET_KEY);
-        if (!checkValidity) {
-            return res.status(403).json({ error: "invalid token" });
-        }
-        req.user = checkValidity;
+        jsonwebtoken_1.default.verify(accessToken, process.env.JWT_ACCESS_SECRET, (err, user) => {
+            if (err) {
+                return res.status(403).json({ error: "invalid access token" });
+            }
+            req.user = user;
+        });
         next();
     }
     catch (error) {

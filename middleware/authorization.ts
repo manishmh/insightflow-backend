@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import jwt, { Secret } from 'jsonwebtoken'
+import Jwt, { Secret } from 'jsonwebtoken'
 
 declare global {
   namespace Express {
@@ -21,13 +21,15 @@ export const tokenAuthorization = (req: Request, res: Response, next: NextFuncti
             return res.status(401).json({ error: "Unauthorized, no access token" });
         }
 
-        const checkValidity = jwt.verify(accessToken, process.env.JWT_SECRET_KEY as Secret)
+        Jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET as Secret, (err: any, user: any ) => {
+          if (err) {
+            return res.status(403).json({ error: "invalid access token"})
+          }
 
-        if (!checkValidity) {
-            return res.status(403).json({ error: "invalid token"})
-        }
+          console.log(user);
+          req.user = user;
+        })
 
-        req.user = checkValidity;
         next()
 
     } catch (error) {

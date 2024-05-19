@@ -13,11 +13,12 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const db_1 = __importDefault(require("./config/db"));
 const login_1 = __importDefault(require("./routes/login"));
 const register_1 = __importDefault(require("./routes/register"));
-const user_dashboard_1 = __importDefault(require("./routes/user-dashboard"));
+const token_1 = __importDefault(require("./routes/token"));
+const logout_1 = __importDefault(require("./routes/logout"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://fsd-frontend-nine.vercel.app'],
+    origin: ['http://localhost:3000'],
     optionsSuccessStatus: 200,
 };
 // Apply middleware
@@ -27,7 +28,8 @@ app.use(express_1.default.json());
 // Apply routes
 app.use('/register', register_1.default);
 app.use('/login', login_1.default);
-app.use('/user/dashboard', user_dashboard_1.default);
+app.use('/token', token_1.default);
+app.use('/logout', logout_1.default);
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
@@ -47,13 +49,6 @@ server.listen(port, async () => {
         await (0, db_1.default)(process.env.MONGODB_URI);
         console.log('Connected to MongoDB');
         console.log(`Server is running on http://localhost:${port}`);
-        // soket io connection after mongodb established connection
-        exports.io.on('connection', (socket) => {
-            console.log(socket.id + ' connected');
-            socket.on('disconnect', () => {
-                console.log(socket.id, 'disconnected');
-            });
-        });
     }
     catch (error) {
         console.error('Error connecting to MongoDB:', error);

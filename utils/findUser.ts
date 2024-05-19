@@ -1,5 +1,4 @@
 import User from '../models/user'
-import { Response, Request } from 'express'
 
 export const findUserByEmail = (email: string) => {
     try {

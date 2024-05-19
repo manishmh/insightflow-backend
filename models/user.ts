@@ -25,7 +25,7 @@ const UserSchema: Schema = new Schema({
         type: String,
         required: true
     },
-    refereshToken: {
+    refreshToken: {
         type: String,
     },
     loginDevices: [{

@@ -1,9 +1,8 @@
+import bcrypt from 'bcryptjs';
 import { Request, Response, Router } from "express";
-import { loginSchema } from "../schemas/input-validation-schemas";
-import bcrypt from 'bcryptjs'
-import { findUserByEmail } from "../utils/findUser";
 import jwt from 'jsonwebtoken';
-import { io } from "../server";
+import { loginSchema } from "../schemas/input-validation-schemas";
+import { findUserByEmail } from "../utils/findUser";
 
 const LoginRouter = Router();
 
@@ -25,7 +24,7 @@ LoginRouter.post('/', async (req: Request, res: Response) => {
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password)
 
         if (!isPasswordCorrect) {
-            return res.status(401).json({ error: "incorrect password" });
+            return res.status(401).json({ error: "wrong credentials" });
         }
         
         // set device information before checking if the devices already exists and store it into database. 
@@ -37,16 +36,21 @@ LoginRouter.post('/', async (req: Request, res: Response) => {
         }
         
         
-        const accessToken = jwt.sign({ email }, process.env.JWT_SECRET_KEY || 'Manish', { expiresIn: '1h' });
-        const refreshToken = jwt.sign({ email }, process.env.JWT_SECRET_KEY || 'Manish',  { expiresIn: '24h' });
+        const accessToken = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET || 'Manish', { expiresIn: '1h' });
+        const refreshToken = jwt.sign({ email }, process.env.JWT_REFRESH_SECRET || 'Manish',  { expiresIn: '24h' });
         
         existingUser.refreshToken = refreshToken;
         await existingUser.save();
         
-        io.emit('userLoggedIn', existingUser.loginDevices)
-
         // send acces token as cookie
-        res.cookie('accessToken', accessToken, { httpOnly: true });
+        res.cookie('accessToken', accessToken, { 
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 86400000
+
+        });
+        res.cookie('refreshToken', refreshToken, { httpOnly: true });
         res.status(201).json({ 
             success: "Logged in successfully.",
             refreshToken,

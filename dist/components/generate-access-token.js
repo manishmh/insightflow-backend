@@ -22,45 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importStar(require("mongoose"));
-const UserSchema = new mongoose_1.Schema({
-    username: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    email: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    refreshToken: {
-        type: String,
-    },
-    loginDevices: [{
-            deviceInfo: String,
-            lastLogin: Date
-        }],
-    updatedAt: {
-        type: Date,
-        default: Date.now
-    },
-    createdAt: {
-        type: Date,
-        default: function () {
-            if (this.isNew) {
-                return new Date();
-            }
-            else {
-                return this.createdAt;
-            }
-        }
-    }
-});
-const User = mongoose_1.default.model('User', UserSchema);
-exports.default = User;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const dotenv = __importStar(require("dotenv"));
+dotenv.config();
+const generateAccessToken = (email) => {
+    const accessToken = jsonwebtoken_1.default.sign({ email }, process.env.JWT_ACCESS_SECRET, { expiresIn: '1h' });
+    return accessToken;
+};
+exports.default = generateAccessToken;

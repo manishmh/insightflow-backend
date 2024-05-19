@@ -7,14 +7,16 @@ import dotenv from 'dotenv';
 import connectDB from './config/db';
 import LoginRouter from './routes/login';
 import RegisterRouter from './routes/register';
-import userDashboardRouter from './routes/user-dashboard';
+import TokenRouter from './routes/token';
+import logoutRouter from './routes/logout';
+import validateRouter from './routes/validate';
 
 dotenv.config();
 
 const app: Express = express();
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://fsd-frontend-nine.vercel.app'],
+  origin: ['http://localhost:3000'],
   optionsSuccessStatus: 200, 
 };
 
@@ -26,10 +28,12 @@ app.use(express.json());
 // Apply routes
 app.use('/register', RegisterRouter);
 app.use('/login', LoginRouter);
-app.use('/user/dashboard', userDashboardRouter);
+app.use('/token', TokenRouter);
+app.use('/logout', logoutRouter);
+app.use('/validate', validateRouter);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('Bookverse Home route!');
 });
 
 // Create HTTP server and Initialize Socket.IO
@@ -50,15 +54,7 @@ server.listen(port, async () => {
     await connectDB(process.env.MONGODB_URI as string);
     console.log('Connected to MongoDB');
     console.log(`Server is running on http://localhost:${port}`);
-    
-    // soket io connection after mongodb established connection
-    io.on('connection', (socket) => {
-      console.log(socket.id + ' connected');
-    
-      socket.on('disconnect', () => {
-        console.log( socket.id ,'disconnected');
-      });
-    });
+
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
     process.exit(1);
