@@ -16,7 +16,7 @@ dotenv.config();
 const app: Express = express();
 
 const corsOptions = {
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3000', 'https://bookverse-frontend-mh.vercel.app'],
   credentials: true,
 };
 
