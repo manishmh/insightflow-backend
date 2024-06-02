@@ -16,13 +16,13 @@ dotenv.config();
 const app: Express = express();
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://bookverse-frontend-mh.vercel.app'],
+  origin: ['http://localhost:3000', 'https://bookverse-frontend-mh.vercel.app', 'https://bfmh1.vercel.app'],
   credentials: true,
 };
 
 // Apply middleware
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Apply routes
