@@ -22,7 +22,7 @@ const corsOptions = {
 
 // Apply middleware
 app.use(cookieParser());
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 // Apply routes
