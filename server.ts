@@ -40,7 +40,7 @@ app.get('/', (req: Request, res: Response) => {
 const server = http.createServer(app);
 export const io = new Server(server);
 
-// Error handling middleware
+// Error handling middlewares
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
@@ -60,3 +60,5 @@ server.listen(port, async () => {
     process.exit(1);
   }
 });
+
+export default app;
