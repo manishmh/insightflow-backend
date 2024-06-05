@@ -44,16 +44,14 @@ LoginRouter.post('/', async (req: Request, res: Response) => {
         
         // send acces token as cookie
         res.cookie('accessToken', accessToken, { 
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            // secure: process.env.NODE_ENV === 'production',
+            // sameSite: 'strict',
             maxAge: 86400000
 
         });
         res.cookie('refreshToken', refreshToken, { 
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            // secure: process.env.NODE_ENV === 'production',
+            // sameSite: 'strict',
             maxAge: 86400000
         });
         res.status(201).json({ 
