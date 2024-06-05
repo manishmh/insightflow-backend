@@ -58,7 +58,10 @@ LoginRouter.post('/', async (req: Request, res: Response) => {
             accessToken, 
         }) 
     } catch (error) {
-        res.status(500).json({ error: "Something went wrong! Try again. " }) 
+        console.error(error);  // Log the error for debugging
+        if (!res.headersSent) {  // Check if headers are already sent
+            return res.status(500).json({ error: "Something went wrong! Try again." });
+        }
     }
 });
 

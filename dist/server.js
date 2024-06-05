@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 // Create HTTP server and Initialize Socket.IO
 const server = http_1.default.createServer(app);
 exports.io = new socket_io_1.Server(server);
-// Error handling middleware
+// Error handling middlewares
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
