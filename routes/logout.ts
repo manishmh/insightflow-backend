@@ -5,15 +5,11 @@ import { tokenAuthorization } from "../middleware/authorization";
 const logoutRouter = Router();
 
 logoutRouter.post('/', tokenAuthorization, async (req: Request, res: Response ) => {
-    const cookie = req.cookies;
-    const refreshToken = cookie.refreshToken;
-    
-    if (!refreshToken) {
-        return res.status(401).json({ error: "no refresh token" })
-    }
+    const user = req.user;
+    const email = user.email;
 
     try {
-        const updatedUser = await User.updateOne({ refreshToken }, { $set: { refreshToken: ''}});
+        const updatedUser = await User.updateOne({ email }, { $set: { refreshToken: ''}});
 
         console.log(updatedUser.modifiedCount);
 
