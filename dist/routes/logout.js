@@ -19,13 +19,13 @@ logoutRouter.post('/', authorization_1.tokenAuthorization, async (req, res) => {
         if (updatedUser.modifiedCount !== 1) {
             return res.status(404).json({ error: "user not found" });
         }
-        res.cookie('accessToken', '', { maxAge: 0, httpOnly: true });
-        res.clearCookie('refreshToken', { httpOnly: true });
+        res.clearCookie('accessToken');
+        res.clearCookie('refreshToken');
         return res.status(200).json({ success: "user logged out successfully" });
     }
     catch (error) {
         console.error('Error removing refreshToken:', error);
-        return res.status(500).json({ message: "something went wrong! try again. " });
+        return res.status(500).json({ error: "something went wrong! try again. " });
     }
 });
 exports.default = logoutRouter;

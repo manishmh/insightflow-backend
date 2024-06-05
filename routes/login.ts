@@ -45,14 +45,12 @@ LoginRouter.post('/', async (req: Request, res: Response) => {
         // send acces token as cookie
         res.cookie('accessToken', accessToken, { 
             // secure: process.env.NODE_ENV === 'production',
-            // sameSite: 'strict',
-            maxAge: 86400000
+            maxAge: 7 * 24 * 60 * 60 * 1000,
 
         });
         res.cookie('refreshToken', refreshToken, { 
             // secure: process.env.NODE_ENV === 'production',
-            // sameSite: 'strict',
-            maxAge: 86400000
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         res.status(201).json({ 
             success: "Logged in successfully.",
