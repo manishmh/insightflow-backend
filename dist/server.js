@@ -57,3 +57,4 @@ server.listen(port, async () => {
         process.exit(1);
     }
 });
+exports.default = app;
