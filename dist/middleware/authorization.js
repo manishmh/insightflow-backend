@@ -18,6 +18,7 @@ const tokenAuthorization = (req, res, next) => {
             if (err) {
                 return res.status(403).json({ error: "invalid access token" });
             }
+            console.log(user);
             req.user = user;
         });
         next();

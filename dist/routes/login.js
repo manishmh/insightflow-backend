@@ -38,12 +38,13 @@ LoginRouter.post('/', async (req, res) => {
         await existingUser.save();
         // send acces token as cookie
         res.cookie('accessToken', accessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 86400000
+            // secure: process.env.NODE_ENV === 'production',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
-        res.cookie('refreshToken', refreshToken, { httpOnly: true });
+        res.cookie('refreshToken', refreshToken, {
+            // secure: process.env.NODE_ENV === 'production',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
         res.status(201).json({
             success: "Logged in successfully.",
             refreshToken,

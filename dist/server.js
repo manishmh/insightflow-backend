@@ -15,11 +15,12 @@ const login_1 = __importDefault(require("./routes/login"));
 const register_1 = __importDefault(require("./routes/register"));
 const token_1 = __importDefault(require("./routes/token"));
 const logout_1 = __importDefault(require("./routes/logout"));
+const validate_1 = __importDefault(require("./routes/validate"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const corsOptions = {
-    origin: ['http://localhost:3000'],
-    optionsSuccessStatus: 200,
+    origin: ['http://localhost:3000', 'https://bookverse-frontend-mh.vercel.app', 'https://bfmh1.vercel.app'],
+    credentials: true,
 };
 // Apply middleware
 app.use((0, cookie_parser_1.default)());
@@ -30,8 +31,9 @@ app.use('/register', register_1.default);
 app.use('/login', login_1.default);
 app.use('/token', token_1.default);
 app.use('/logout', logout_1.default);
+app.use('/validate', validate_1.default);
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send('Bookverse Home route!');
 });
 // Create HTTP server and Initialize Socket.IO
 const server = http_1.default.createServer(app);
