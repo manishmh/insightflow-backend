@@ -45,14 +45,17 @@ LoginRouter.post('/', async (req, res) => {
             // secure: process.env.NODE_ENV === 'production',
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
-        res.status(201).json({
+        return res.status(201).json({
             success: "Logged in successfully.",
             refreshToken,
             accessToken,
         });
     }
     catch (error) {
-        res.status(500).json({ error: "Something went wrong! Try again. " });
+        console.error(error); // Log the error for debugging
+        if (!res.headersSent) { // Check if headers are already sent
+            return res.status(500).json({ error: "Something went wrong! Try again." });
+        }
     }
 });
 exports.default = LoginRouter;
