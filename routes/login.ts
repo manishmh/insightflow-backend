@@ -52,7 +52,7 @@ LoginRouter.post('/', async (req: Request, res: Response) => {
             // secure: process.env.NODE_ENV === 'production',
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
-        res.status(201).json({ 
+        return res.status(201).json({ 
             success: "Logged in successfully.",
             refreshToken,
             accessToken, 
