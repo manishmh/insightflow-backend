@@ -22,7 +22,7 @@ const corsOptions = {
     origin: ['http://localhost:3000', 'https://bookverse-frontend-mh.vercel.app', 'https://bfmh1.vercel.app'],
     credentials: true,
 };
-// Apply middleware
+// Apply middleware here. 
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
