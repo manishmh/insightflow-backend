@@ -1,11 +1,15 @@
-import { MongoClient } from 'mongodb'
+import { PrismaClient } from "@prisma/client";
 
-export const ConnectMongodb = async (url: string) => {
-    try {
-        const client = new MongoClient(url);
-        await client.connect();
-        console.log("Mongodb connnected successfully to the server");
-    } catch (error) {
-        console.log("Mongodb connection failed!")
-    }
+declare global {
+  var prisma: PrismaClient | undefined;
+}
+
+export const db =
+  global.prisma ||
+  new PrismaClient({
+    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+  });
+
+if (process.env.NODE_ENV !== "production") {
+  global.prisma = db ;
 }
