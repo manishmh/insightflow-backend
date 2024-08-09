@@ -44,8 +44,8 @@ app.get('/protected', isLoggedIn, (req: Request, res: Response) => {
 })
 
 const server = http.createServer(app);
-
 const port = process.env.PORT || 8080;
+
 server.listen(port, async () => {
   try {
     console.log(`Server is running on http://localhost:${port}`);
