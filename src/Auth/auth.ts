@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import dotenv from 'dotenv';
 import { db } from "../config/db";
+import { User } from "@prisma/client";
 
 dotenv.config();
 
@@ -47,7 +48,7 @@ passport.use(new GoogleStrategy({
 }));
 
 passport.serializeUser((user: any, done) => {
-    done(null, user.id); 
+    done(null, (user as User).id); 
 })
 
 passport.deserializeUser(async(id: string, done) => {

@@ -6,8 +6,8 @@ import session from 'express-session';
 import http from 'http';
 import passport from 'passport';
 import './src/Auth/auth';
-import { isLoggedIn } from './src/middleware/is-logged-in';
 import router from './src/routes';
+import { isLoggedIn } from './src/middleware/is-logged-in';
 
 dotenv.config();
 
