@@ -1,4 +1,4 @@
-import { Router, Response, Request } from 'express';
+import { Request, Response, Router } from 'express';
 import fetchMongoDB from '../../connections/mongodb';
 
 const router = Router();
